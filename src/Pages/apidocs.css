@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+  }
+
+  /* Set the sidebar to occupy 20% of the width */
+  .sidebar {
+    width: 20%;
+    background-color: lightgray; /* Change the background color to your desired color */
+    padding: 20px;
+    position: relative
+  }
+
+  /* Set the main content area to occupy 80% of the width */
+  .content {
+    width: 80%;
+    padding: 20px;
+  }
+
+  li {
+    padding: 8px;
+  }
+
+  table {
+    border: 2px solid black;
+    width: 800px;
+    height: 200px;
+  }
+    
+  th {
+    border-bottom: 1px solid black;
+  }
+    
+  td {
+    border: 1px solid black;
+    text-align: center;
+  }
