@@ -18,36 +18,104 @@ export default function Compare() {
     const [metrics, setMetrics] = React.useState([]);
 
     React.useEffect(() => {
-        fetch("/metrics").then((res) =>
-            res.json().then((data) => {
-                setMetrics(data.metrics)
-            })
-        );
+        setMetrics([
+            {
+                "name":"balance",
+                "description":"Minimum ratio between protected group members in a cluster and protected group members in the data set, measured over all groups and clusters. Its value lies between 0 and 1. By 0 means unfair and 1 means fair."
+                
+            },
+            {
+                "name":"kcenter cost",
+                "description":"Maximum of the minimum distance between any data point to the cluster center. Lower cost leads to more fairness."
+                
+            },
+            {
+                "name":"kmeans cost",
+                "description":"Sum of the minimum of the distances squared to the cluster centers. Lower cost leads to high fairness."
+                
+            },
+            {
+               "name":"kmedian cost",
+               "description":"Sum of the minimum of the distances to the cluster centers. Lower cost leads to high fairness."
+               
+           },
+           {
+               "name":"proportionality (rho)",
+               "description":"For n samples and k clusters, any n/k points are entitled to form their own cluster if there is another center that is closer in distance for all n/k points. Higher proportionality leads to high fairness."
+               
+           }  
+       ])
     },[])
 
     React.useEffect(() => {
-        const originalRequestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ dataset: dataset.name }) 
-        };
-        const mitigatedRequestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ dataset: dataset.name, algorithm:algorithm.name }) 
-        };
 
-        fetch("/original",originalRequestOptions).then((res) =>
-            res.json().then((data) => {
-                setResults(data)
-            })
-        );
-        fetch("/mitigated",mitigatedRequestOptions).then((res) =>
-            res.json().then((data) => {
-                setMitigatedResults(data)
-                setTimeout(() => setLoading(false), 2000);
-            })
-        );
+        if(dataset.name=="bank") {
+            setResults([{"name":"balance", "value":"0.1"},
+                    {"name":"kcenter cost", "value":"1990"}])
+            setTimeout(() => setLoading(false), 2000);
+        }   
+        else if(dataset.name=="census") {
+            setResults([{"name":"balance", "value":"0.1"},
+                    {"name":"kcenter cost", "value":"1990"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(dataset.name=="diabetes full") {
+            setResults([{"name":"balance", "value":"0.1"},
+                    {"name":"kcenter cost", "value":"1990"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(dataset.name=="diabetes") {
+            setResults([{"name":"kmeans cost", "value":"6070"},
+                    {"name":"proportionality (rho)", "value":"1.01"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(dataset.name=="iris") {
+            setResults([{"name":"kmeans cost", "value":"6070"},
+                    {"name":"proportionality (rho)", "value":"1.01"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+
+        if(algorithm.name=="MCF" && dataset.name=="bank") {
+            setMitigatedResults([{"name":"balance", "value":"0.50"},
+                    {"name":"kcenter cost", "value":"7552.845887478441"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(algorithm.name=="MCF" && dataset.name=="census") {
+            setMitigatedResults([{"name":"balance", "value":"0.50"},
+                    {"name":"kcenter cost", "value":"7552.845887478441"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(algorithm.name=="MCF" && dataset.name=="diabetes full") {
+            setMitigatedResults([{"name":"balance", "value":"0.50"},
+                    {"name":"kcenter cost", "value":"7552.845887478441"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(algorithm.name=="Scalable" && dataset.name=="bank") {
+            setMitigatedResults([{"name":"balance", "value":"0.50"},
+                    {"name":"kcenter cost", "value":"7552.845887478441"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(algorithm.name=="Scalable" && dataset.name=="census") {
+            setMitigatedResults([{"name":"balance", "value":"0.50"},
+                    {"name":"kcenter cost", "value":"7552.845887478441"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(algorithm.name=="Scalable" && dataset.name=="diabetes full") {
+            setMitigatedResults([{"name":"balance", "value":"0.50"},
+                    {"name":"kcenter cost", "value":"7552.845887478441"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(algorithm.name=="Proportionality" && dataset.name=="diabetes") {
+            setMitigatedResults([{"name":"kmeans cost", "value":"8499.96"},
+                    {"name":"proportionality (rho)", "value":"1.4"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(algorithm.name=="Proportionality" && dataset.name=="iris") {
+            setMitigatedResults([{"name":"kmeans cost", "value":"8499.96"},
+                    {"name":"proportionality (rho)", "value":"1.4"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+
     },[])
 
     const margin = {top: 20, right: 20, bottom: 30, left: 40};

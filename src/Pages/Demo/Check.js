@@ -15,26 +15,62 @@ export default function Check() {
     const [metrics, setMetrics] = React.useState([]);
 
     React.useEffect(() => {
-        fetch("/metrics").then((res) =>
-            res.json().then((data) => {
-                setMetrics(data.metrics)
-            })
-        );
+        setMetrics([
+            {
+                "name":"balance",
+                "description":"Minimum ratio between protected group members in a cluster and protected group members in the data set, measured over all groups and clusters. Its value lies between 0 and 1. By 0 means unfair and 1 means fair."
+                
+            },
+            {
+                "name":"kcenter cost",
+                "description":"Maximum of the minimum distance between any data point to the cluster center. Lower cost leads to more fairness."
+                
+            },
+            {
+                "name":"kmeans cost",
+                "description":"Sum of the minimum of the distances squared to the cluster centers. Lower cost leads to high fairness."
+                
+            },
+            {
+               "name":"kmedian cost",
+               "description":"Sum of the minimum of the distances to the cluster centers. Lower cost leads to high fairness."
+               
+           },
+           {
+               "name":"proportionality (rho)",
+               "description":"For n samples and k clusters, any n/k points are entitled to form their own cluster if there is another center that is closer in distance for all n/k points. Higher proportionality leads to high fairness."
+               
+           }  
+       ])
     },[])
 
     React.useEffect(() => {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ dataset: dataset.name }) 
-        };
 
-        fetch("/original", requestOptions)
-        .then((res) =>res.json()
-        .then((data) => {
-            setResults(data); 
+        if(dataset.name=="bank") {
+            setResults([{"name":"balance", "value":"0.1"},
+                    {"name":"kcenter cost", "value":"1990"}])
             setTimeout(() => setLoading(false), 2000);
-        }));
+        }   
+        else if(dataset.name=="census") {
+            setResults([{"name":"balance", "value":"0.1"},
+                    {"name":"kcenter cost", "value":"1990"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(dataset.name=="diabetes full") {
+            setResults([{"name":"balance", "value":"0.1"},
+                    {"name":"kcenter cost", "value":"1990"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(dataset.name=="diabetes") {
+            setResults([{"name":"kmeans cost", "value":"6070"},
+                    {"name":"proportionality (rho)", "value":"1.01"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
+        else if(dataset.name=="iris") {
+            setResults([{"name":"kmeans cost", "value":"6070"},
+                    {"name":"proportionality (rho)", "value":"1.01"}])
+            setTimeout(() => setLoading(false), 2000);
+        }
         
     },[])
 
